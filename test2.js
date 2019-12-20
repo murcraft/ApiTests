@@ -3,7 +3,6 @@ let request = require('request')
 let CryptoJS = require('crypto-js')
 
 console.log('Call')
-console.log(request);
 let user = {
   username: 'perch659',
   pass: 'buy249jkv035'
@@ -40,7 +39,7 @@ let generateCnonce = function() {
 
 let parseAuthValues = function(respHeaders) {
   respHeaders = respHeaders.split(', ')
-  console.log(respHeaders)
+  // console.log(respHeaders)
   let authorKeys = {}
   for (let i = 0; i < respHeaders.length; i++) {
 
@@ -87,12 +86,13 @@ let makeAuthenticatedReques = function(realm, nonce, opaque, qop, cnonce) {
     'algorithm="MD5", '+
     'uri="/rets/getMetadata", '+
     'cnonce="'+cnonce+'"'
-  console.log(digestAuthHeader, 'digest header')
+  // console.log(digestAuthHeader, 'digest header')
   return digestAuthHeader
 }
 
 request.post({
   url: urlLog,
+  jar: true,
   auth: {
     user: user.username,
     pass: user.pass,
@@ -105,56 +105,60 @@ request.post({
   }
 }, ( oError , oResponse , sBody) => {
   console.log(JSON.stringify(oResponse), 'Login response')
-  console.log(oResponse.request.headers, 'Response headers')
-  console.log(request);
-  // let respHeaders = oResponse.request.headers.authorization
-  // let authorKeys = parseAuthValues(respHeaders)
+  // console.log(oResponse.request.headers, 'Response headers')
+  // console.log(request);
+  let respHeaders = oResponse.request.headers.authorization
+  let authorKeys = parseAuthValues(respHeaders)
   // client generated keys
-  // let cnonce = generateCnonce()
+  let cnonce = generateCnonce()
   // let prevCooki = oResponse.headers['set-cookie']
   // cookies.setCookie(prevCooki[0], url)
-  // request.post({
-  //   url: url,
-  //   jar: true,
-  //   auth: {
-  //     user: user.username,
-  //     pass: user.pass,
-  //     sendImmediately: false
-  //   },
-  //   headers: {
-  //     'content-type': 'application/x-www-form-urlencoded',
-  //     'Authorization': makeAuthenticatedReques(authorKeys.realm, authorKeys.nonce, authorKeys.opaque, authorKeys.qop, cnonce)
-  //   },
-  //   form: {
-  //     Type: 'METADATA-SYSTEM',
-  //     Format: 'STANDARD-XML',
-  //     ID: '0'
-  //   }
-  // }, ( oError , oResponse , sBody) => {
-  //   console.log(JSON.stringify(oResponse))
-  //   request.post({
-  //     url: url,
-  //     jar: true,
-  //     auth: {
-  //       user: user.username,
-  //       pass: user.pass,
-  //       sendImmediately: false
-  //     },
-  //     headers: {
-  //       'content-type': 'application/x-www-form-urlencoded',
-  //       'Authorization': makeAuthenticatedReques(authorKeys.realm, authorKeys.nonce, authorKeys.opaque, authorKeys.qop, cnonce)
-  //     },
-  //     form: {
-  //       Type: 'METADATA-SYSTEM',
-  //       Format: 'STANDARD-XML',
-  //       ID: '0'
-  //     }
-  //   }, ( oError , oResponse , sBody) => {
-  //     console.log(JSON.stringify(oResponse))
-  //     // console.log(JSON.stringify(sBody))
-  //   })
-  //   // console.log(JSON.stringify(sBody))
-  // })
+  request.post({
+    url: url,
+    jar: true,
+    auth: {
+      user: user.username,
+      pass: user.pass,
+      sendImmediately: false
+    },
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+      'Authorization': makeAuthenticatedReques(authorKeys.realm, authorKeys.nonce, authorKeys.opaque, authorKeys.qop, cnonce)
+    },
+    form: {
+      Type: 'METADATA-SYSTEM',
+      Format: 'STANDARD-XML',
+      ID: '0'
+    }
+  }, ( oError , oResponse , sBody) => {
+    console.log(JSON.stringify(oResponse))
+    console.log(JSON.stringify(sBody))
+    let respHeaders = oResponse.request.headers['Authorization']
+    let authorKeys = parseAuthValues(respHeaders)
+    // client generated keys
+    let cnonce = generateCnonce()
+    request.post({
+      url: url,
+      jar: true,
+      auth: {
+        user: user.username,
+        pass: user.pass,
+        sendImmediately: false
+      },
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'Authorization': makeAuthenticatedReques(authorKeys.realm, authorKeys.nonce, authorKeys.opaque, authorKeys.qop, cnonce)
+      },
+      form: {
+        Type: 'METADATA-SYSTEM',
+        Format: 'STANDARD-XML',
+        ID: '0'
+      }
+    }, ( oError , oResponse , sBody) => {
+      console.log(JSON.stringify(oResponse))
+      console.log(JSON.stringify(sBody))
+    })
+  })
 })
 
 
