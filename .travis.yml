@@ -5,6 +5,9 @@ node_js:
 os: linux
 dist: trusty
 
+cache:
+  npm: false
+
 before_install:
 - npm i -g npm@6.9.0
 
