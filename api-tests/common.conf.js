@@ -19,6 +19,6 @@ module.exports = {
 
   testEnv: 'production',
   logLevel: 'debug',
-  isPostToSlack: 'true',
+  isPostToSlack: 'false',
   isCleanAllure: 'true'
 }
