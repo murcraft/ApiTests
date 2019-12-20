@@ -2,11 +2,11 @@
   {
     "type": "METADATA-SYSTEM",
     "format": "COMPACT",
-    "id": "0"
+    "id": "*"
   },
   {
     "type": "METADATA-SYSTEM",
     "format": "COMPACT",
-    "id": "*"
+    "id": "0"
   }
 ]

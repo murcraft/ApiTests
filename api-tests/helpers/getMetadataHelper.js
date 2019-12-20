@@ -10,17 +10,20 @@ const Logger = require('./utils/loggerHelper')
 let portEnv = common.testEnv === 'production' ? '6103' : '6106'
 let urlLog = `${common.baseUrl}:${portEnv}/rets/login`
 let url = `${common.baseUrl}:${portEnv}/rets/getMetadata`
-let user = common.testEnv === 'production' ? common.prodUser : common.stagingUser
+let user = common.testEnv === 'production'
+  ? common.prodUser
+  : common.stagingUser
 
 const cookies = Client.jar()
 Client.defaults({
-  jar: true
+  jar: true,
 })
 
 class GetMetadataHelper {
 
   static FormulateResponse (realm, method, nonce, nc, cnonce, qop) {
-    let HA1 = CryptoJS.MD5(user.username + ':' + realm + ':' + user.pass).toString()
+    let HA1 = CryptoJS.MD5(user.username + ':' + realm + ':' + user.pass).
+      toString()
     let HA2 = CryptoJS.MD5(method + ':' + url).toString()
     let response = CryptoJS.MD5(HA1 + ':' +
       nonce + ':' +
@@ -88,16 +91,16 @@ class GetMetadataHelper {
   }
 
   static async AuthenticateUser () {
-    return new Promise ((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       Client.post({
         url: urlLog,
         resolveWithFullResponse: true,
         auth: {
           user: user.username,
           pass: user.pass,
-          sendImmediately: false
+          sendImmediately: false,
         },
-      }, ( oError , oResponse , sBody) => {
+      }, (oError, oResponse, sBody) => {
         if (oError) {
           Logger.Error(`Error. Response:`, oError)
           reject(oError)
@@ -116,11 +119,46 @@ class GetMetadataHelper {
     let start = new Date().getTime()
     console.log('Start time: ', start)
     for (let i = 0; i < 1e7; i++) {
-      if ((new Date().getTime() - start) > milliseconds){
+      if ((new Date().getTime() - start) > milliseconds) {
         console.log('End time: ', new Date().getTime())
         break
       }
     }
+  }
+
+  static async GetMetadataByParams2 (paramsObj, authorizationParams, cookies) {
+    let cnonce = GetMetadataHelper.GenerateCnonce()
+    Logger.Debug('Post request with parameters: ', paramsObj)
+    return new Promise((resolve, reject) => {
+      Client.post({
+        url: url,
+        resolveWithFullResponse: true,
+        jar: cookies,
+        auth: {
+          user: user.username,
+          pass: user.pass,
+          sendImmediately: false,
+        },
+        headers: {
+          sendImmediately: false,
+          'Content-Type': 'application/x-www-form-urlencoded',
+          authorization: GetMetadataHelper.MakeAuthenticatedRequest(
+            authorizationParams.realm, authorizationParams.nonce,
+            authorizationParams.opaque, authorizationParams.qop, cnonce),
+        },
+        form: {
+          Type: paramsObj.type,
+          Format: paramsObj.format,
+          ID: paramsObj.id,
+        },
+      }, (oError, oResponse, sBody) => {
+        if (oError) {
+          reject(oError)
+        }
+        Logger.Debug('METADATA response:\n', oResponse.statusCode)
+        resolve(sBody)
+      })
+    })
   }
 
   static async GetMetadataByParams (paramsObj, authorizationParams, cookies) {
@@ -134,20 +172,22 @@ class GetMetadataHelper {
       auth: {
         user: user.username,
         pass: user.pass,
-        sendImmediately: false
+        sendImmediately: false,
       },
       headers: {
         sendImmediately: false,
         'Content-Type': 'application/x-www-form-urlencoded',
-        authorization: GetMetadataHelper.MakeAuthenticatedRequest(authorizationParams.realm, authorizationParams.nonce, authorizationParams.opaque, authorizationParams.qop, cnonce)
+        authorization: GetMetadataHelper.MakeAuthenticatedRequest(
+          authorizationParams.realm, authorizationParams.nonce,
+          authorizationParams.opaque, authorizationParams.qop, cnonce),
       },
       form: {
         Type: paramsObj.type,
         Format: paramsObj.format,
         ID: paramsObj.id,
-      }
+      },
     }).then(async (response) => {
-      Logger.Debug('METADATA response:\n',response)
+      Logger.Debug('METADATA response:\n', response)
       return await response.body
     }).catch(async (err) => {
       Logger.Error(`Error. Response:`, err)
