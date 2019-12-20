@@ -96,13 +96,11 @@ request.post({
     user: user.username,
     pass: user.pass,
     sendImmediately: false
-  },
-  // form: {
-  //   Type: 'METADATA-TABLE',
-  //   Format: 'STANDARD-XML',
-  //   ID: '0'
-  // }
+  }
 }, ( oError , oResponse , sBody) => {
+  if (oError) {
+    console.log(oError)
+  }
   console.log(JSON.stringify(oResponse), 'Login response')
   let respHeaders = oResponse.request.headers.authorization
   console.log('llll', respHeaders);
