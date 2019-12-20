@@ -9,11 +9,12 @@ let response
 describe('Compare METADATA for RETs - PLS: ', () => {
 
   beforeAll(async () => {
-    authorizationResponse = await GetMetadataHelper.AuthenticateUser()
+
   })
 
   dataTest.map(data => {
     it(`Get response with parameters: type=${data.type} id=${data.id}: `, async () => {
+      authorizationResponse = await GetMetadataHelper.AuthenticateUser()
       response = await GetMetadataHelper.GetMetadataByParams(data, authorizationResponse.authorKeys, authorizationResponse.cookie)
       await expect(response).not.toBe(undefined, 'Response in undefined')
 
