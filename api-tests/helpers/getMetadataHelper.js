@@ -109,7 +109,8 @@ class GetMetadataHelper {
         let authorKeys = GetMetadataHelper.ParseAuthorizationValues(respHeaders)
         let prevCooki = oResponse.headers['set-cookie']
         cookies.setCookie(prevCooki[0], url)
-        Logger.Debug('Success authorization: ', oResponse.body)
+        console.log('Login cookie', prevCooki)
+        Logger.Debug('Success authorization: ', oResponse.headers)
         resolve({authorKeys: authorKeys, cookie: cookies})
       })
     })
@@ -155,7 +156,7 @@ class GetMetadataHelper {
         if (oError) {
           reject(oError)
         }
-        Logger.Debug('METADATA response:\n', oResponse.statusCode)
+        Logger.Debug('METADATA response:\n', oResponse.request)
         resolve(sBody)
       })
     })

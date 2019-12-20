@@ -7,16 +7,25 @@ let authorizationResponse
 let response
 
 describe('Compare METADATA for RETs - PLS: ', () => {
-  beforeAll(async () => {
+/*  beforeAll(async () => {
     authorizationResponse = await GetMetadataHelper.AuthenticateUser()
-  })
+  })*/
 
   it(`Get response with param `, async () => {
+    authorizationResponse = await GetMetadataHelper.AuthenticateUser()
     console.log('Respone:', authorizationResponse)
     let a = await GetMetadataHelper.GetMetadataByParams2(dataTest[0], authorizationResponse.authorKeys, authorizationResponse.cookie)
-    let a1 = await GetMetadataHelper.GetMetadataByParams2(dataTest[1], authorizationResponse.authorKeys, authorizationResponse.cookie)
-    console.log('a ++++++\n', a)
-    console.log('a1 ++++++\n',a1)
+    // let a1 = await GetMetadataHelper.GetMetadataByParams2(dataTest[1], authorizationResponse.authorKeys, authorizationResponse.cookie)
+    // console.log('a ++++++\n', a)
+    // console.log('a1 ++++++\n',a1)
+  })
+  it(`Get response with param `, async () => {
+    authorizationResponse = await GetMetadataHelper.AuthenticateUser()
+    console.log('Respone:', authorizationResponse)
+    let a = await GetMetadataHelper.GetMetadataByParams2(dataTest[1], authorizationResponse.authorKeys, authorizationResponse.cookie)
+    // let a1 = await GetMetadataHelper.GetMetadataByParams2(dataTest[1], authorizationResponse.authorKeys, authorizationResponse.cookie)
+    // console.log('a ++++++\n', a)
+    // console.log('a1 ++++++\n',a1)
   })
 /*
   dataTest.map(data => {
