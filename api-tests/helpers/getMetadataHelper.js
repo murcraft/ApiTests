@@ -127,7 +127,7 @@ class GetMetadataHelper {
     }
   }
 
-  static async GetMetadataByParams2 (paramsObj, authorizationParams, cookies) {
+  static async GetMetadataByParams2 (paramsObj, authorizationParams) {
     let cnonce = GetMetadataHelper.GenerateCnonce()
     Logger.Debug('Post request with parameters: ', paramsObj)
     return new Promise((resolve, reject) => {
@@ -156,8 +156,11 @@ class GetMetadataHelper {
         if (oError) {
           reject(oError)
         }
-        Logger.Debug('METADATA response:\n', oResponse.request)
-        Logger.Debug('METADATA response:\n', sBody)
+        Logger.Debug('METADATA response:\n', oResponse)
+        Logger.Debug('METADATA response body:\n', sBody)
+        let prevCooki = oResponse.request.headers.cookie
+        cookies.setCookie(prevCooki, url)
+        console.log('cookies', cookies)
         resolve(sBody)
       })
     })
