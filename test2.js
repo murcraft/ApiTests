@@ -98,11 +98,11 @@ request.post({
     pass: user.pass,
     sendImmediately: false
   },
-  form: {
-    Type: 'METADATA-TABLE',
-    Format: 'STANDARD-XML',
-    ID: '0'
-  }
+  // form: {
+  //   Type: 'METADATA-TABLE',
+  //   Format: 'STANDARD-XML',
+  //   ID: '0'
+  // }
 }, ( oError , oResponse , sBody) => {
   console.log(JSON.stringify(oResponse), 'Login response')
   // console.log(oResponse.request.headers, 'Response headers')
