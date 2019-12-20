@@ -1,4 +1,3 @@
-'use strict'
 let request = require('request')
 let CryptoJS = require('crypto-js')
 
@@ -86,7 +85,7 @@ let makeAuthenticatedReques = function(realm, nonce, opaque, qop, cnonce) {
     'algorithm="MD5", '+
     'uri="/rets/getMetadata", '+
     'cnonce="'+cnonce+'"'
-  // console.log(digestAuthHeader, 'digest header')
+  console.log(digestAuthHeader, 'digest header')
   return digestAuthHeader
 }
 
