@@ -157,6 +157,7 @@ class GetMetadataHelper {
           reject(oError)
         }
         Logger.Debug('METADATA response:\n', oResponse.request)
+        Logger.Debug('METADATA response:\n', sBody)
         resolve(sBody)
       })
     })
