@@ -111,7 +111,7 @@ class GetMetadataHelper {
         cookies.setCookie(prevCooki[0], url)
         console.log('Login cookie', prevCooki)
         Logger.Debug('Success authorization: ', oResponse.headers)
-        resolve({authorKeys: authorKeys, cookie: cookies})
+        resolve({authorKeys: authorKeys, cookie1: cookies})
       })
     })
   }
