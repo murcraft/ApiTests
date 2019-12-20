@@ -1,0 +1,12 @@
+[
+  {
+    "type": "METADATA-FILTER",
+    "format": "STANDARD-XML",
+    "id": "*"
+  },
+  {
+    "type": "METADATA-FILTER",
+    "format": "STANDARD-XML",
+    "id": "0"
+  }
+]

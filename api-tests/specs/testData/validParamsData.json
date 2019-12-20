@@ -1,0 +1,12 @@
+[
+  {
+    "type": "METADATA-SYSTEM",
+    "format": "COMPACT",
+    "id": "0"
+  },
+  {
+    "type": "METADATA-SYSTEM",
+    "format": "COMPACT",
+    "id": "*"
+  }
+]

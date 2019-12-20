@@ -1,0 +1,29 @@
+language: node_js
+node_js:
+- 10
+
+os: linux
+dist: trusty
+
+stages:
+- api
+
+script:
+- run test || if [$? != 0]; then exit 0; fi
+
+jobs:
+  include:
+  - stage: api
+
+addons:
+  artifacts:
+    paths:
+    - ./allure-results
+    target_paths: $TRAVIS_BUILD_NUMBER/$TRAVIS_JOB_NUMBER/results
+notifications:
+  slack: perchwell:pl3o9fKchohvpGiYEHY0s3ej
+  email:
+    recipients:
+    - alena.kuzniatsova@itechart-group.com
+    on_success: always
+    on_failure: always

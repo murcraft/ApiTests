@@ -1,0 +1,21 @@
+{
+  "name": "perchwell",
+  "private": true,
+  "version": "0.5.0",
+  "description": "RETS-PLS",
+  "devDependencies": {
+    "crypto-js": "^3.1.9-1",
+    "jasmine": "^3.4.0",
+    "jasmine-allure-reporter": "^1.0.2",
+    "jasmine-data-provider": "^2.2.0",
+    "log4js": "^3.0.6",
+    "pdf2img-promises": "^0.6.6",
+    "request-promise": "^4.2.5",
+    "slack-node": "^0.1.8",
+    "xml2json": "^0.11.2",
+    "yargs": "^12.0.5"
+  },
+  "scripts": {
+    "test": "jasmine --config=api-tests/jasmine.json"
+  }
+}
