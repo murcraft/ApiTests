@@ -133,32 +133,32 @@ request.post({
   }, ( oError , oResponse , sBody) => {
     console.log('Metadata response: ', oResponse.body)
 
-    let respHeaders = oResponse.request.headers['Authorization']
-    console.log('SSSS', respHeaders);
-    let authorKeys = parseAuthValues(respHeaders)
-    // client generated keys
-    let cnonce = generateCnonce()
+    // let respHeaders = oResponse.request.headers['Authorization']
+    // console.log('SSSS', respHeaders);
+    // let authorKeys = parseAuthValues(respHeaders)
+    // // client generated keys
+    // let cnonce = generateCnonce()
 
-    request.post({
-      url: url,
-      jar: true,
-      // jar: cookies,
-      auth: {
-        user: user.username,
-        pass: user.pass,
-        sendImmediately: false
-      },
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'Authorization': makeAuthenticatedReques(authorKeys.realm, authorKeys.nonce, authorKeys.opaque, authorKeys.qop, cnonce)
-      },
-      form: {
-        Type: 'METADATA-SYSTEM',
-        Format: 'STANDARD-XML',
-        ID: '0'
-      }
-    }, ( oError , oResponse , sBody) => {
-      console.log('Metadata response2 : ', oResponse.body)
-    })
+    // request.post({
+    //   url: url,
+    //   jar: true,
+    //   // jar: cookies,
+    //   auth: {
+    //     user: user.username,
+    //     pass: user.pass,
+    //     sendImmediately: false
+    //   },
+    //   headers: {
+    //     'content-type': 'application/x-www-form-urlencoded',
+    //     'Authorization': makeAuthenticatedReques(authorKeys.realm, authorKeys.nonce, authorKeys.opaque, authorKeys.qop, cnonce)
+    //   },
+    //   form: {
+    //     Type: 'METADATA-SYSTEM',
+    //     Format: 'STANDARD-XML',
+    //     ID: '0'
+    //   }
+    // }, ( oError , oResponse , sBody) => {
+    //   console.log('Metadata response2 : ', oResponse.body)
+    // })
   })
 })
