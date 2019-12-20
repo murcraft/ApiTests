@@ -101,6 +101,7 @@ class GetMetadataHelper {
       let authorKeys = GetMetadataHelper.ParseAuthorizationValues(respHeaders)
       let prevCooki = response.headers['set-cookie']
       cookies.setCookie(prevCooki[0], url)
+      Logger.Debug('Success authorization: ', response)
       return await {authorKeys: authorKeys, cookie: cookies}
     }).catch(async (err) => {
       Logger.Error(`Error. Response:`, err)

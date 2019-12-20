@@ -1,9 +1,12 @@
 language: node_js
 node_js:
-- 10
+- 10.16.0
 
 os: linux
 dist: trusty
+
+before_install:
+- npm i -g npm@6.9.0
 
 stages:
 - api
