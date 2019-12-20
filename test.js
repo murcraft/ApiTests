@@ -8,11 +8,11 @@ let user = {
 }
 let urlLog = 'http://rebny-web1.stratusdata.com:6103/rets/login'
 let url = 'http://rebny-web1.stratusdata.com:6103/rets/getMetadata'
-
+/*
 const cookies = request.jar()
 request.defaults({
   jar: true
-})
+})*/
 
 let formulateResponse = function (realm, method, nonce, nc, cnonce, qop) {
   let HA1 = CryptoJS.MD5(user.username+':'+realm+':'+user.pass).toString()
@@ -91,6 +91,7 @@ let makeAuthenticatedReques = function(realm, nonce, opaque, qop, cnonce) {
 }
 
 request.post({
+  jar: true,
   url: urlLog,
   auth: {
     user: user.username,
@@ -109,11 +110,13 @@ request.post({
   let authorKeys = parseAuthValues(respHeaders)
   // client generated keys
   let cnonce = generateCnonce()
-  let prevCooki = oResponse.headers['set-cookie']
-  cookies.setCookie(prevCooki[0], url)
+  // let prevCooki = oResponse.headers['set-cookie']
+  // cookies.setCookie(prevCooki[0], url)
+
   request.post({
+    jar: true,
     url: url,
-    jar: cookies,
+    // jar: cookies,
     auth: {
       user: user.username,
       pass: user.pass,
@@ -125,7 +128,7 @@ request.post({
     },
     form: {
       Type: 'METADATA-SYSTEM',
-      Format: 'STANDARD-XML',
+      Format: 'COMPACT',
       ID: '0'
     }
   }, ( oError , oResponse , sBody) => {
@@ -133,7 +136,8 @@ request.post({
 
     request.post({
       url: url,
-      jar: cookies,
+      jar: true,
+      // jar: cookies,
       auth: {
         user: user.username,
         pass: user.pass,
@@ -144,7 +148,7 @@ request.post({
         'Authorization': makeAuthenticatedReques(authorKeys.realm, authorKeys.nonce, authorKeys.opaque, authorKeys.qop, cnonce)
       },
       form: {
-        Type: 'METADATA-CLASS',
+        Type: 'METADATA-SYSTEM',
         Format: 'STANDARD-XML',
         ID: '0'
       }
