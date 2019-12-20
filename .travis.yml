@@ -9,7 +9,7 @@ stages:
 - api
 
 script:
-- run test || if [$? != 0]; then exit 0; fi
+- npm test || if [$? != 0]; then exit 0; fi
 
 jobs:
   include:
