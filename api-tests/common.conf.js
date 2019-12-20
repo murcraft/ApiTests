@@ -13,9 +13,9 @@ module.exports = {
 
   logsPath: path.resolve(__dirname, './logs'),
 
-  slackWebHookStage: 'https://hooks.slack.com/services/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',
-  slackChannelStage: '#qa-automatic',
-  slackUsername: 'Perchwell ghost',
+  slackWebHookStage: 'https://hooks.slack.com/services/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',
+  slackChannelStage: '#slacktest',
+  slackUsername: 'ogulikpuse',
 
   testEnv: process.env.env,
   logLevel: process.env.logLevel,
