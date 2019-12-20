@@ -106,52 +106,52 @@ request.post({
 }, ( oError , oResponse , sBody) => {
   console.log(JSON.stringify(oResponse), 'Login response')
   console.log(oResponse.request.headers, 'Response headers')
-  let respHeaders = oResponse.request.headers.authorization
-  let authorKeys = parseAuthValues(respHeaders)
+  // let respHeaders = oResponse.request.headers.authorization
+  // let authorKeys = parseAuthValues(respHeaders)
   // client generated keys
-  let cnonce = generateCnonce()
+  // let cnonce = generateCnonce()
   // let prevCooki = oResponse.headers['set-cookie']
   // cookies.setCookie(prevCooki[0], url)
-  request.post({
-    url: url,
-    jar: true,
-    auth: {
-      user: user.username,
-      pass: user.pass,
-      sendImmediately: false
-    },
-    headers: {
-      'content-type': 'application/x-www-form-urlencoded',
-      'Authorization': makeAuthenticatedReques(authorKeys.realm, authorKeys.nonce, authorKeys.opaque, authorKeys.qop, cnonce)
-    },
-    form: {
-      Type: 'METADATA-SYSTEM',
-      Format: 'STANDARD-XML',
-      ID: '0'
-    }
-  }, ( oError , oResponse , sBody) => {
-    console.log(JSON.stringify(oResponse))
-    request.post({
-      url: url,
-      jar: true,
-      auth: {
-        user: user.username,
-        pass: user.pass,
-        sendImmediately: false
-      },
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'Authorization': makeAuthenticatedReques(authorKeys.realm, authorKeys.nonce, authorKeys.opaque, authorKeys.qop, cnonce)
-      },
-      form: {
-        Type: 'METADATA-SYSTEM',
-        Format: 'STANDARD-XML',
-        ID: '0'
-      }
-    }, ( oError , oResponse , sBody) => {
-      console.log(JSON.stringify(oResponse))
-      // console.log(JSON.stringify(sBody))
-    })
-    // console.log(JSON.stringify(sBody))
-  })
+  // request.post({
+  //   url: url,
+  //   jar: true,
+  //   auth: {
+  //     user: user.username,
+  //     pass: user.pass,
+  //     sendImmediately: false
+  //   },
+  //   headers: {
+  //     'content-type': 'application/x-www-form-urlencoded',
+  //     'Authorization': makeAuthenticatedReques(authorKeys.realm, authorKeys.nonce, authorKeys.opaque, authorKeys.qop, cnonce)
+  //   },
+  //   form: {
+  //     Type: 'METADATA-SYSTEM',
+  //     Format: 'STANDARD-XML',
+  //     ID: '0'
+  //   }
+  // }, ( oError , oResponse , sBody) => {
+  //   console.log(JSON.stringify(oResponse))
+  //   request.post({
+  //     url: url,
+  //     jar: true,
+  //     auth: {
+  //       user: user.username,
+  //       pass: user.pass,
+  //       sendImmediately: false
+  //     },
+  //     headers: {
+  //       'content-type': 'application/x-www-form-urlencoded',
+  //       'Authorization': makeAuthenticatedReques(authorKeys.realm, authorKeys.nonce, authorKeys.opaque, authorKeys.qop, cnonce)
+  //     },
+  //     form: {
+  //       Type: 'METADATA-SYSTEM',
+  //       Format: 'STANDARD-XML',
+  //       ID: '0'
+  //     }
+  //   }, ( oError , oResponse , sBody) => {
+  //     console.log(JSON.stringify(oResponse))
+  //     // console.log(JSON.stringify(sBody))
+  //   })
+  //   // console.log(JSON.stringify(sBody))
+  // })
 })
