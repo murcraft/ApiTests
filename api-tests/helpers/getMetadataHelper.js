@@ -107,7 +107,19 @@ class GetMetadataHelper {
     })
   }
 
+  static SleepTimer (milliseconds) {
+    let start = new Date().getTime()
+    console.log('Start time: ', start)
+    for (let i = 0; i < 1e7; i++) {
+      if ((new Date().getTime() - start) > milliseconds){
+        console.log('End time: ', new Date().getTime())
+        break
+      }
+    }
+  }
+
   static async GetMetadataByParams (paramsObj, authorizationParams, cookies) {
+    GetMetadataHelper.SleepTimer(5000)
     let cnonce = GetMetadataHelper.GenerateCnonce()
     Logger.Debug('Post request with parameters: ', paramsObj)
     return await Client.post({
