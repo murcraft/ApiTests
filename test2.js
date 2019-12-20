@@ -3,6 +3,7 @@ let request = require('request')
 let CryptoJS = require('crypto-js')
 
 console.log('Call')
+console.log(request);
 let user = {
   username: 'perch659',
   pass: 'buy249jkv035'
@@ -91,7 +92,6 @@ let makeAuthenticatedReques = function(realm, nonce, opaque, qop, cnonce) {
 }
 
 request.post({
-  jar: true,
   url: urlLog,
   auth: {
     user: user.username,
@@ -106,6 +106,7 @@ request.post({
 }, ( oError , oResponse , sBody) => {
   console.log(JSON.stringify(oResponse), 'Login response')
   console.log(oResponse.request.headers, 'Response headers')
+  console.log(request);
   // let respHeaders = oResponse.request.headers.authorization
   // let authorKeys = parseAuthValues(respHeaders)
   // client generated keys
@@ -155,3 +156,5 @@ request.post({
   //   // console.log(JSON.stringify(sBody))
   // })
 })
+
+
