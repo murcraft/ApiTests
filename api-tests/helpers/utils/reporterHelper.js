@@ -15,7 +15,7 @@ jasmine.getEnv().addReporter(new AllureReporter({
   resultsDir: 'allure-results'
 }))
 
-if (isCleanAllure) {
+if (isCleanAllure === 'true') {
   let pathAllure = 'allure-results'
   if (fs.existsSync(pathAllure)) {
     fs.readdirSync(pathAllure).forEach((file) => {

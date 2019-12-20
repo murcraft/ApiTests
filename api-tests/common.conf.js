@@ -17,9 +17,8 @@ module.exports = {
   slackChannelStage: '#slacktest',
   slackUsername: 'ogulikpuse',
 
-  testEnv: process.env.env,
-  logLevel: process.env.logLevel,
-  isPostToSlack: process.env.isPostToSlack,
-  isCleanAllure: process.env.isCleanAllure,
-  isExecutedInGlobal: process.env.isExecutedInGlobal,
+  testEnv: 'production',
+  logLevel: 'debug',
+  isPostToSlack: 'true',
+  isCleanAllure: 'true'
 }
