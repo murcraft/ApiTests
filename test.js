@@ -124,12 +124,12 @@ request.post({
       'Authorization': makeAuthenticatedReques(authorKeys.realm, authorKeys.nonce, authorKeys.opaque, authorKeys.qop, cnonce)
     },
     form: {
-      Type: 'METADATA-TABLE',
+      Type: 'METADATA-SYSTEM',
       Format: 'STANDARD-XML',
       ID: '0'
     }
   }, ( oError , oResponse , sBody) => {
-    console.log('Metadata response: ', JSON.stringify(oResponse))
+    console.log('Metadata response: ', oResponse)
 
     request.post({
       url: url,
@@ -144,12 +144,12 @@ request.post({
         'Authorization': makeAuthenticatedReques(authorKeys.realm, authorKeys.nonce, authorKeys.opaque, authorKeys.qop, cnonce)
       },
       form: {
-        Type: 'METADATA-TABLE',
+        Type: 'METADATA-SYSTEM',
         Format: 'STANDARD-XML',
-        ID: 'Listing'
+        ID: '0'
       }
     }, ( oError , oResponse , sBody) => {
-      console.log('Metadata response2 : ', JSON.stringify(oResponse))
+      console.log('Metadata response2 : ', oResponse)
     })
   })
 })

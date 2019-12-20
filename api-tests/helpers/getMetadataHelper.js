@@ -16,12 +16,15 @@ let user = common.testEnv === 'production'
 
 const cookies = Client.jar()
 Client.defaults({
-  jar: true,
+  jar: true
 })
 
 class GetMetadataHelper {
 
-  static FormulateResponse (realm, method, nonce, nc, cnonce, qop) {
+  constructor () {
+  }
+
+  FormulateResponse (realm, method, nonce, nc, cnonce, qop) {
     let HA1 = CryptoJS.MD5(user.username + ':' + realm + ':' + user.pass).
       toString()
     let HA2 = CryptoJS.MD5(method + ':' + url).toString()
@@ -34,7 +37,7 @@ class GetMetadataHelper {
     return response
   }
 
-  static GenerateCnonce () {
+  GenerateCnonce () {
     let characters = 'abcdef0123456789'
     let token = ''
     for (let i = 0; i < 16; i++) {
@@ -44,7 +47,7 @@ class GetMetadataHelper {
     return token
   }
 
-  static ParseAuthorizationValues (respHeaders) {
+  ParseAuthorizationValues (respHeaders) {
     respHeaders = respHeaders.split(', ')
     let authorizationParams = {}
     for (let i = 0; i < respHeaders.length; i++) {
@@ -72,8 +75,8 @@ class GetMetadataHelper {
     return authorizationParams
   }
 
-  static MakeAuthenticatedRequest (realm, nonce, opaque, qop, cnonce) {
-    let response = GetMetadataHelper.FormulateResponse()
+  MakeAuthenticatedRequest (realm, nonce, opaque, qop, cnonce) {
+    let response = this.FormulateResponse()
     let digestAuthHeader = 'Digest' + ' ' +
       'username="' + user.username + '", ' +
       'realm="' + realm + '", ' +
@@ -90,7 +93,7 @@ class GetMetadataHelper {
     return digestAuthHeader
   }
 
-  static async AuthenticateUser () {
+  async AuthenticateUser () {
     return new Promise((resolve, reject) => {
       Client.post({
         url: urlLog,
@@ -106,7 +109,7 @@ class GetMetadataHelper {
           reject(oError)
         }
         let respHeaders = oResponse.request.headers.authorization
-        let authorKeys = GetMetadataHelper.ParseAuthorizationValues(respHeaders)
+        let authorKeys = this.ParseAuthorizationValues(respHeaders)
         let prevCooki = oResponse.headers['set-cookie']
         cookies.setCookie(prevCooki[0], url)
         console.log('Login cookie', prevCooki)
@@ -116,7 +119,7 @@ class GetMetadataHelper {
     })
   }
 
-  static SleepTimer (milliseconds) {
+  SleepTimer (milliseconds) {
     let start = new Date().getTime()
     console.log('Start time: ', start)
     for (let i = 0; i < 1e7; i++) {
@@ -127,8 +130,8 @@ class GetMetadataHelper {
     }
   }
 
-  static async GetMetadataByParams2 (paramsObj, authorizationParams) {
-    let cnonce = GetMetadataHelper.GenerateCnonce()
+  async GetMetadataByParams2 (paramsObj, authorizationParams) {
+    let cnonce = this.GenerateCnonce()
     Logger.Debug('Post request with parameters: ', paramsObj)
     return new Promise((resolve, reject) => {
       Client.post({
@@ -143,7 +146,7 @@ class GetMetadataHelper {
         headers: {
           sendImmediately: false,
           'Content-Type': 'application/x-www-form-urlencoded',
-          authorization: GetMetadataHelper.MakeAuthenticatedRequest(
+          authorization: this.MakeAuthenticatedRequest(
             authorizationParams.realm, authorizationParams.nonce,
             authorizationParams.opaque, authorizationParams.qop, cnonce),
         },
@@ -166,9 +169,9 @@ class GetMetadataHelper {
     })
   }
 
-  static async GetMetadataByParams (paramsObj, authorizationParams, cookies) {
-    GetMetadataHelper.SleepTimer(5000)
-    let cnonce = GetMetadataHelper.GenerateCnonce()
+  async GetMetadataByParams (paramsObj, authorizationParams, cookies) {
+    this.SleepTimer(5000)
+    let cnonce = this.GenerateCnonce()
     Logger.Debug('Post request with parameters: ', paramsObj)
     return await Client.post({
       url: url,
@@ -182,7 +185,7 @@ class GetMetadataHelper {
       headers: {
         sendImmediately: false,
         'Content-Type': 'application/x-www-form-urlencoded',
-        authorization: GetMetadataHelper.MakeAuthenticatedRequest(
+        authorization: this.MakeAuthenticatedRequest(
           authorizationParams.realm, authorizationParams.nonce,
           authorizationParams.opaque, authorizationParams.qop, cnonce),
       },
@@ -199,7 +202,7 @@ class GetMetadataHelper {
     })
   }
 
-  static async GetJsonFromResponse (responseData, isSilent = true) {
+  async GetJsonFromResponse (responseData, isSilent = true) {
     let responseJson = converter.toJson(responseData)
     if (!isSilent) {
       Logger.Debug(`Response is:\n${responseJson}`)

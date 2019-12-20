@@ -6,17 +6,20 @@ let dataTest = require('../testData/validParamsData.json')
 let authorizationResponse
 let response
 
+
+let getMetadataHelper = new GetMetadataHelper()
+
 describe('Compare METADATA for RETs - PLS: ', () => {
 /*  beforeAll(async () => {
     authorizationResponse = await GetMetadataHelper.AuthenticateUser()
   })*/
 
   it(`Get response with param `, async () => {
-    authorizationResponse = await GetMetadataHelper.AuthenticateUser()
+    authorizationResponse = await getMetadataHelper.AuthenticateUser()
     console.log('Respone:', authorizationResponse)
-    let a = await GetMetadataHelper.GetMetadataByParams2(dataTest[0], authorizationResponse.authorKeys, authorizationResponse.cookie1)
-    let b = await GetMetadataHelper.GetMetadataByParams2(dataTest[1], authorizationResponse.authorKeys, authorizationResponse.cookie1)
-    let b2 = await GetMetadataHelper.GetMetadataByParams2(dataTest[1], authorizationResponse.authorKeys, authorizationResponse.cookie1)
+    let a = await getMetadataHelper.GetMetadataByParams2(dataTest[0], authorizationResponse.authorKeys, authorizationResponse.cookie1)
+    let b = await getMetadataHelper.GetMetadataByParams2(dataTest[1], authorizationResponse.authorKeys, authorizationResponse.cookie1)
+    let b2 = await getMetadataHelper.GetMetadataByParams2(dataTest[1], authorizationResponse.authorKeys, authorizationResponse.cookie1)
     // let a1 = await GetMetadataHelper.GetMetadataByParams2(dataTest[1], authorizationResponse.authorKeys, authorizationResponse.cookie1)
     // console.log('a ++++++\n', a)
     // console.log('a1 ++++++\n',a1)
