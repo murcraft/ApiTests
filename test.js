@@ -105,6 +105,7 @@ request.post({
 }, ( oError , oResponse , sBody) => {
   console.log(JSON.stringify(oResponse), 'Login response')
   let respHeaders = oResponse.request.headers.authorization
+  console.log('llll', respHeaders);
   let authorKeys = parseAuthValues(respHeaders)
   // client generated keys
   let cnonce = generateCnonce()
@@ -130,7 +131,13 @@ request.post({
       ID: '0'
     }
   }, ( oError , oResponse , sBody) => {
-    console.log('Metadata response: ', oResponse)
+    console.log('Metadata response: ', oResponse.body)
+
+    let respHeaders = oResponse.request.headers['Authorization']
+    console.log('SSSS', respHeaders);
+    let authorKeys = parseAuthValues(respHeaders)
+    // client generated keys
+    let cnonce = generateCnonce()
 
     request.post({
       url: url,
@@ -151,7 +158,7 @@ request.post({
         ID: '0'
       }
     }, ( oError , oResponse , sBody) => {
-      console.log('Metadata response2 : ', oResponse)
+      console.log('Metadata response2 : ', oResponse.body)
     })
   })
 })
