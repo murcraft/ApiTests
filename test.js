@@ -97,11 +97,11 @@ request.post({
     pass: user.pass,
     sendImmediately: false
   },
-  form: {
-    Type: 'METADATA-TABLE',
-    Format: 'STANDARD-XML',
-    ID: '0'
-  }
+  // form: {
+  //   Type: 'METADATA-TABLE',
+  //   Format: 'STANDARD-XML',
+  //   ID: '0'
+  // }
 }, ( oError , oResponse , sBody) => {
   console.log(JSON.stringify(oResponse), 'Login response')
   console.log(oResponse.request.headers, 'Response headers')
@@ -144,7 +144,7 @@ request.post({
         'Authorization': makeAuthenticatedReques(authorKeys.realm, authorKeys.nonce, authorKeys.opaque, authorKeys.qop, cnonce)
       },
       form: {
-        Type: 'METADATA-SYSTEM',
+        Type: 'METADATA-CLASS',
         Format: 'STANDARD-XML',
         ID: '0'
       }

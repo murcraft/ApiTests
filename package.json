@@ -16,6 +16,6 @@
     "yargs": "^12.0.5"
   },
   "scripts": {
-    "test": "jasmine --config=api-tests/jasmine.json"
+    "test": "node test.js"
   }
 }
