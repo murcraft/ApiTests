@@ -86,7 +86,6 @@ let makeAuthenticatedReques = function(realm, nonce, opaque, qop, cnonce) {
     'algorithm="MD5", '+
     'uri="/rets/getMetadata", '+
     'cnonce="'+cnonce+'"'
-  console.log(digestAuthHeader, 'digest header')
   return digestAuthHeader
 }
 
@@ -105,7 +104,6 @@ request.post({
   // }
 }, ( oError , oResponse , sBody) => {
   console.log(JSON.stringify(oResponse), 'Login response')
-  console.log(oResponse.request.headers, 'Response headers')
   let respHeaders = oResponse.request.headers.authorization
   let authorKeys = parseAuthValues(respHeaders)
   // client generated keys
