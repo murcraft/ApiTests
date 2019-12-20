@@ -8,13 +8,14 @@ let response
 
 describe('Compare METADATA for RETs - PLS: ', () => {
 
-  beforeAll(async () => {
-
+  it(`Get response with param `, async () => {
+    authorizationResponse = await GetMetadataHelper.AuthenticateUser()
+    console.log('Respone:', authorizationResponse)
   })
-
+/*
   dataTest.map(data => {
     it(`Get response with parameters: type=${data.type} id=${data.id}: `, async () => {
-      authorizationResponse = await GetMetadataHelper.AuthenticateUser()
+
       response = await GetMetadataHelper.GetMetadataByParams(data, authorizationResponse.authorKeys, authorizationResponse.cookie)
       await expect(response).not.toBe(undefined, 'Response in undefined')
 
@@ -28,6 +29,6 @@ describe('Compare METADATA for RETs - PLS: ', () => {
         }
       }
     })
-  })
+  })*/
 
 }, 20000000)

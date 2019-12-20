@@ -90,10 +90,6 @@ let makeAuthenticatedReques = function(realm, nonce, opaque, qop, cnonce) {
   return digestAuthHeader
 }
 
-let getMetadata = function () {
-
-}
-
 request.post({
   url: urlLog,
   auth: {

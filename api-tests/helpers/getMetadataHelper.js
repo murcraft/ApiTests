@@ -1,6 +1,6 @@
 'use strict'
 
-let Client = require('request-promise')
+let Client = require('request')
 let CryptoJS = require('crypto-js')
 const converter = require('xml2json')
 
@@ -88,23 +88,27 @@ class GetMetadataHelper {
   }
 
   static async AuthenticateUser () {
-    return await Client.post({
-      url: urlLog,
-      resolveWithFullResponse: true,
-      auth: {
-        user: user.username,
-        pass: user.pass,
-        sendImmediately: false
-      },
-    }).then(async (response) => {
-      let respHeaders = response.request.headers.authorization
-      let authorKeys = GetMetadataHelper.ParseAuthorizationValues(respHeaders)
-      let prevCooki = response.headers['set-cookie']
-      cookies.setCookie(prevCooki[0], url)
-      Logger.Debug('Success authorization: ', response.statusCode)
-      return await {authorKeys: authorKeys, cookie: cookies}
-    }).catch(async (err) => {
-      Logger.Error(`Error. Response:`, err)
+    return new Promise ((resolve, reject) => {
+      Client.post({
+        url: urlLog,
+        resolveWithFullResponse: true,
+        auth: {
+          user: user.username,
+          pass: user.pass,
+          sendImmediately: false
+        },
+      }, ( oError , oResponse , sBody) => {
+        if (oError) {
+          Logger.Error(`Error. Response:`, oError)
+          reject(oError)
+        }
+        let respHeaders = oResponse.request.headers.authorization
+        let authorKeys = GetMetadataHelper.ParseAuthorizationValues(respHeaders)
+        let prevCooki = oResponse.headers['set-cookie']
+        cookies.setCookie(prevCooki[0], url)
+        Logger.Debug('Success authorization: ', oResponse.body)
+        resolve({authorKeys: authorKeys, cookie: cookies})
+      })
     })
   }
 
